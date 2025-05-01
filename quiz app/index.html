@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Quiz App</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f0f4f8;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      max-width: 500px;
+      width: 100%;
+    }
+    .question-box {
+      margin-bottom: 20px;
+    }
+    .option {
+      display: block;
+      margin: 12px 0;
+    }
+    #result {
+      font-size: 22px;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+    #percentage {
+      font-size: 18px;
+      margin-top: 10px;
+      text-align: center;
+      color: #333;
+    }
+    #timer {
+      font-weight: bold;
+      margin-bottom: 20px;
+      text-align: center;
+      font-size: 18px;
+      color: #444;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 style="text-align:center;">General Knowledge Quiz</h2>
+    <div id="timer">Time Left: 01:00</div>
+    <div id="quiz-box"></div>
+    <button id="next-btn">Next</button>
+    <div id="result"></div>
+    <div id="percentage"></div>
+  </div>
+  <script>
+    const questions = [
+      { question: "What is the capital of France?", options: ["Paris", "London", "Berlin", "Madrid"], answer: "Paris" },
+      { question: "Which planet is known as the Red Planet?", options: ["Mars", "Venus", "Jupiter", "Saturn"], answer: "Mars" },
+      { question: "Who wrote 'Hamlet'?", options: ["Shakespeare", "Homer", "Tolkien", "Chaucer"], answer: "Shakespeare" },
+      { question: "How many continents are there?", options: ["7", "5", "6", "8"], answer: "7" },
+      { question: "What is the largest mammal?", options: ["Blue Whale", "Elephant", "Giraffe", "Rhino"], answer: "Blue Whale" },
+      { question: "Which country is famous for pizza?", options: ["Italy", "France", "Spain", "India"], answer: "Italy" },
+      { question: "What gas do plants absorb?", options: ["Carbon Dioxide", "Oxygen", "Hydrogen", "Nitrogen"], answer: "Carbon Dioxide" },
+      { question: "What is the boiling point of water?", options: ["100°C", "90°C", "120°C", "80°C"], answer: "100°C" },
+      { question: "What is the hardest natural substance?", options: ["Diamond", "Iron", "Gold", "Quartz"], answer: "Diamond" },
+      { question: "Which ocean is the largest?", options: ["Pacific", "Atlantic", "Indian", "Arctic"], answer: "Pacific" }
+    ];
+
+    let current = 0;
+    let score = 0;
+    let perQuestionTime = 60;
+    let time = perQuestionTime;
+    let timerDisplay = document.getElementById("timer");
+    let quizBox = document.getElementById("quiz-box");
+    let resultBox = document.getElementById("result");
+    let percentageBox = document.getElementById("percentage");
+    let nextBtn = document.getElementById("next-btn");
+    let questionTimer;
+
+    function startQuestionTimer() {
+      clearInterval(questionTimer);
+      time = perQuestionTime;
+      questionTimer = setInterval(() => {
+        let minutes = Math.floor(time / 60);
+        let seconds = time % 60;
+        timerDisplay.textContent = "Time Left: " + String(minutes).padStart(2, '0') + ":" + String(seconds).padStart(2, '0');
+        time--;
+        if (time < 0) {
+          clearInterval(questionTimer);
+          nextBtn.click();
+        }
+      }, 1000);
+    }
+
+    function showQuestion(index) {
+      quizBox.innerHTML = "";
+      let q = questions[index];
+      let div = document.createElement("div");
+      div.className = "question-box";
+      let qText = document.createElement("p");
+      qText.textContent = (index + 1) + ". " + q.question;
+      div.appendChild(qText);
+      q.options.forEach(option => {
+        let label = document.createElement("label");
+        label.className = "option";
+        let radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "q" + index;
+        radio.value = option;
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(option));
+        div.appendChild(label);
+      });
+      quizBox.appendChild(div);
+      startQuestionTimer();
+    }
+
+    function showResult() {
+      quizBox.innerHTML = "";
+      nextBtn.style.display = "none";
+      timerDisplay.style.display = "none";
+      resultBox.textContent = "Your Score: " + score + " out of " + questions.length;
+      let percent = Math.round((score / questions.length) * 100);
+      percentageBox.textContent = "Percentage: " + percent + "%";
+    }
+
+    nextBtn.addEventListener("click", () => {
+      clearInterval(questionTimer);
+      let selected = document.querySelector('input[name="q' + current + '"]:checked');
+      if (selected && selected.value === questions[current].answer) score++;
+      current++;
+      if (current < questions.length) {
+        showQuestion(current);
+      } else {
+        showResult();
+      }
+    });
+
+    showQuestion(current);
+  </script>
+</body>
+</html>

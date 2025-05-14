@@ -1,0 +1,16 @@
+.card-footer i {
+  cursor: pointer;
+  font-size: 1.5rem;
+  color: gray;
+}
+
+.card-footer i:hover {
+  color: #0d6efd;
+}
+
+
+#postsContainer img {
+    object-fit: cover;
+    height: 300px;
+    width: 100%;
+}

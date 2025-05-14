@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Social Media</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container mt-5 text-center">
+  <h1>Welcome to Simple Social Media</h1>
+  <button class="btn btn-primary mt-3" data-bs-toggle="modal" data-bs-target="#postModal">Create Post</button>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="postModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Create New Post</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <form id="postForm">
+          <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" class="form-control" id="postTitle" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" id="postDescription" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Upload Image</label>
+<input type="file" class="form-control" id="postImageFile" accept="image/*" required>
+
+          </div>
+          <button type="submit" class="btn btn-success">Save Post</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="text-center mt-4">
+  <a href="posts.html" class="btn btn-secondary">View Posts</a>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
